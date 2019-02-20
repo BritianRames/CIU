@@ -25,6 +25,7 @@ void setup(){
   imageMode (CENTER) ;
   //Carga de l a imagen
   img=loadImage("Fondo_galaxia.jpg" ) ;
+  img.resize(1400,800);
   imgSol=loadImage("Sol.png" ) ;
   imgMercurio=loadImage("Mercurio.jpg" ) ;
   imgLatierra=loadImage("Latierra.jpg" ) ;
@@ -34,8 +35,6 @@ void setup(){
   imgJupiter=loadImage("Jupiter.jpeg" ) ;
   
   noStroke();
-  galaxy = createShape(SPHERE, 5500);
-  galaxy.setTexture(img);
   
   sun = createShape(SPHERE, 100);
   sun.setTexture(imgSol);
@@ -62,9 +61,10 @@ void setup(){
 }
 
 void preSet(){
-  background(255);
+  background(img);
   
   translate(width/2,height/2-200,-200);
+  
  
   noStroke();
   shape(galaxy);
@@ -118,6 +118,9 @@ void draw(){
   }
   
   preSet();
+  //pushMatrix();
+  //camera (x,y,z,0,100,0,0,1,0) ;
+  //popMatrix();
   fill(255,255,255);
   //textFont(createFont("Geogia",30));
   textAlign(CENTER,CENTER);
