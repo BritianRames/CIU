@@ -67,7 +67,7 @@ void preSet(){
   
  
   noStroke();
-  shape(galaxy);
+  //shape(galaxy);
   
   
   
