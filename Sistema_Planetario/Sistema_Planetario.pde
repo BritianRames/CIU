@@ -1,26 +1,32 @@
-
-float ang;
-float angS1, angS2, angS3, angS4, angS5;
+float dx,dy,dz,z,vx,vy,vz,vx2,vz2,vx0,vy0,vz0;
+float ang, ang2, angEstrella, angMercurio, angTierra, angVenus, angMarte, angJupiter;
 PImage img,imgSol, imgMercurio, imgLatierra,imgVenus, imgLuna, imgMarte, imgJupiter;
-PShape galaxy, sun, mercurio, venus, tierra, marte, jupiter, luna, nave;
-int x,y,z;
-boolean inicial = true;
+PShape galaxy, sun, mercurio, venus, tierra, marte, jupiter, luna, nave, target;
+boolean camaraMode = false;
 
 void setup(){
-  //frameRate(1000);
-  
-  x = 0;
-  y = -150;
-  z = 0;
-  
-  size (1400 ,800 ,P3D);
-  stroke(0);
+  frameRate(50);
+  size(1400,800,P3D);
+  background(100);
+  vx0 = width/2;
+  vy0 = height/2;
+  vz0 = 0;
+  dx = width/2;
+  dy = height/2;
+  dz = 500;
+  z = 700;
   ang = 0;
-  angS1 = 0;
-  angS2 = 0;
-  angS3 = 0;
-  angS4 = 0;
-  angS5 = 0;
+  ang2 = 0;
+  vx = width/2;
+  vy = height/2;
+  vz = 0;
+  
+  angEstrella = 0;
+  angMercurio = 0;
+  angTierra = 0;
+  angVenus = 0;
+  angMarte = 0;
+  angJupiter = 0;
   
   imageMode (CENTER) ;
   //Carga de l a imagen
@@ -50,31 +56,95 @@ void setup(){
   jupiter.setTexture(imgJupiter);
   luna = createShape(SPHERE, 5);
   luna.setTexture(imgLuna);
-  //nave = loadShape("retro_rocket.obj");
+  nave = loadShape("OVNI2.obj");
+  //nave.setTexture(imgMarte);
   //nave.scale(0.1);
-  nave = createShape(SPHERE, 15);
-  nave.setTexture(imgMarte);
+  target = createShape(SPHERE, 15);
+  target.setTexture(imgMarte);
   
   textFont(createFont("Geogia",30));
   
-  
 }
 
-void preSet(){
+void draw(){
+  
+  if(keyPressed){
+    if(key == 'd'){
+      ang = ang - 2;
+      vx = dx + (-500*sin(radians(ang)));
+      //vz = dz + (-500*cos(radians(ang)));
+      vy = dy + (-500*cos(radians(ang))*sin(radians(ang2)));
+      vz = dz + (-500*cos(radians(ang))*cos(radians(ang2)));
+    }
+    if(key == 'a'){
+      ang = ang +2;
+      vx = dx + (-500*sin(radians(ang)));
+      vy = dy + (-500*cos(radians(ang))*sin(radians(ang2)));
+      //vz = dz + (-500*cos(radians(ang)));
+      vz = dz + (-500*cos(radians(ang))*cos(radians(ang2)));
+    }
+    //if(ang >= 360) ang = 0;
+    if(key == 's'){
+      dx = dx + 5*sin(radians(ang));
+      dy = dy + 5*cos(radians(ang))*sin(radians(ang2));
+      //dz = dz + 5*cos(radians(ang));
+      dz = dz + 5*cos(radians(ang))*cos(radians(ang2));
+      //
+      vx = vx + 5*sin(radians(ang));
+      vy = vy + 5*cos(radians(ang))*sin(radians(ang2));
+      //vz = vz + 5*cos(radians(ang));
+      vz = vz + 5*cos(radians(ang))*cos(radians(ang2));
+      
+    }
+    if(key == 'w'){
+      dx = dx - 5*sin(radians(ang));
+      dy = dy - (5*cos(radians(ang))*sin(radians(ang2)));
+      //dz = dz - 5*cos(radians(ang));
+      dz = dz - (5*cos(radians(ang))*cos(radians(ang2)));
+      //
+      vx = vx - 5*sin(radians(ang));
+      vy = vy - (5*cos(radians(ang))*sin(radians(ang2)));
+      //vz = vz - 5*cos(radians(ang));
+      vz = vz - (5*cos(radians(ang))*cos(radians(ang2)));
+      
+    }
+    if(key == 'k'){
+      ang2 = ang2 + 2;
+      vx = dx + (-500*sin(radians(ang)));
+      vy = dy +(-500*cos(radians(ang))*sin(radians(ang2)));
+      vz = dz +(-500*cos(radians(ang))*cos(radians(ang2)));
+      //dy=dy +5;
+      //vy=vy +5;
+    }
+    
+    if(key == 'm'){
+      ang2 = ang2 - 2;
+      vx = dx + (-500*sin(radians(ang)));
+      vy = dy +(-500*cos(radians(ang))*sin(radians(ang2)));
+      vz = dz +(-500*cos(radians(ang))*cos(radians(ang2)));
+      //dy=dy -5;
+      //vy=vy -5;
+    }
+    
+    if(key == 'p'){
+      camaraMode = true;
+    }
+    
+    if(key == 'o'){
+      camaraMode = false;
+    }
+    
+  }
+  
+  
   background(img);
   
-  translate(width/2,height/2-200,-200);
-  
- 
-  noStroke();
-  //shape(galaxy);
-  
-  
+  pushMatrix();
+  translate(width/2,height/2,0);
+  ////////////////////////////////////
   
   pushMatrix();
-  rotateX(PI/4);
-  
-  
+  rotateX(radians(90));
   noFill();
   strokeWeight(1);
   stroke(255,255,255);
@@ -85,78 +155,6 @@ void preSet(){
   ellipse(0,0,(width*2)*0.45,(width*2)*0.45);
   
   popMatrix();
-}
-
-void draw(){
-  
-  
-  
-  if(keyPressed){
-    
-    inicial = false;
-    switch(key) {
-      case 'w': 
-        y = y - 10;
-        break;
-      case 's': 
-        y = y + 10;
-        break;
-      case 'a': 
-        x = x - 10;
-        break;
-      case 'd': 
-        x = x + 10;
-        break;
-      case 'k': 
-        z = z - 10;
-        break;
-      case 'm': 
-        z = z + 10;
-        break;
-    }
-    
-  }
-  
-  preSet();
-  //pushMatrix();
-  //camera (x,y,z,0,100,0,0,1,0) ;
-  //popMatrix();
-  fill(255,255,255);
-  //textFont(createFont("Geogia",30));
-  textAlign(CENTER,CENTER);
-  String s = "(x = "+str(x)+" ) (y = "+ str(y) +" ) (z = "+str(z)+" )";
-  text(s,width/2-100,height/2+100);
-  text("(W) or (S) = X axis",width/2-100,height/2+150);
-  text("(A) or (D) = Y axis",width/2-100,height/2+200);
-  text("(K) or (M) = Z axis",width/2-100,height/2+250);
-  
-  rotateX(radians(-45));
-  
-  if(inicial){
-    fill(255,0,0);
-    noStroke();
-    triangle(10,-150, 95, -150, 90, -170);
-    
-    strokeWeight(10);
-    stroke(255,0,0);
-    line(90, -160, 300, -180); 
-    strokeWeight(1);
-    
-    fill(255,0,0);
-    //textFont(createFont("Geogia",50));
-    textAlign(CENTER,CENTER);
-    text("HERE", 370,-180);
-    
-    
-  }
-  
-  pushMatrix();
-  translate(x,y,z);
-  rotateX(radians(180));
-  shape(nave);
-  popMatrix();
-  
-  
   
   pushMatrix();
   
@@ -164,21 +162,22 @@ void draw(){
   //textFont(createFont("Geogia",30));
   textAlign(CENTER,CENTER);
   text("ESTRELLA", 0,-130);
-  rotateY(radians(ang));
+  rotateY(radians(angEstrella));
   fill(243,159,24);
-  //sphere(50);
+  //sphere(100);
   shape(sun);
   popMatrix();
 
-  ang = ang+0.25;
-  if(ang>=360){
-    ang = 0;
+  angEstrella = angEstrella+0.25;
+  if(angEstrella>=360){
+    angEstrella = 0;
   }
   
+  
   pushMatrix();
-  rotateY(radians(angS5));
+  rotateY(radians(angMercurio));
   translate(-width*0.10,0,0);
-  rotateY(radians(angS5));
+  rotateY(radians(angMercurio));
   fill(255,255,255);
   //textFont(createFont("Geogia",20));
   textAlign(CENTER,CENTER);
@@ -188,15 +187,16 @@ void draw(){
   shape(mercurio);
   popMatrix();
   
-  angS5 = angS5+0.25;
-  if(angS5>=360){
-    angS5 = 0;
+  angMercurio = angMercurio+0.35;
+  if(angMercurio>=360){
+    angMercurio = 0;
   }
   
+  
   pushMatrix();
-  rotateY(radians(angS1));
+  rotateY(radians(angTierra));
   translate(-width*0.15,0,0);
-  rotateY(radians(angS1*2));
+  rotateY(radians(angTierra*2));
   fill(255,255,255);
   //textFont(createFont("Geogia",20));
   textAlign(CENTER,CENTER);
@@ -206,9 +206,9 @@ void draw(){
   shape(tierra);
   
   pushMatrix();
-  rotateY(radians(angS1*6));
+  rotateY(radians(angTierra*6));
   translate(-width*0.03,0,0);
-  rotateY(radians(angS1));
+  rotateY(radians(angTierra));
   fill(255,255,255);
   //textFont(createFont("Geogia",15));
   textAlign(CENTER,CENTER);
@@ -216,18 +216,20 @@ void draw(){
   //sphere(15);
   shape(luna);
   
-  angS1 = angS1+0.21;
-  if(angS1>=360){
-    angS1 = 0;
+  angTierra = angTierra+0.21;
+  if(angTierra>=360){
+    angTierra = 0;
   }
   
   popMatrix();
   popMatrix();
   
+  
+  
   pushMatrix();
-  rotateY(radians(angS2));
+  rotateY(radians(angVenus));
   translate(-width*0.25,0,0);
-  rotateY(radians(angS2*4));
+  rotateY(radians(angVenus*4));
   fill(255,255,255);
   //textFont(createFont("Geogia",20));
   textAlign(CENTER,CENTER);
@@ -237,16 +239,16 @@ void draw(){
   shape(venus);
   popMatrix();
   
-  angS2 = angS2+0.17;
-  if(angS2>=360){
-    angS2 = 0;
+  angVenus = angVenus+0.17;
+  if(angVenus>=360){
+    angVenus = 0;
   }
   
   
   pushMatrix();
-  rotateY(radians(angS3));
+  rotateY(radians(angMarte));
   translate(-width*0.35,0,0);
-  rotateY(radians(angS3*4));
+  rotateY(radians(angMarte*4));
   fill(255,255,255);
   //textFont(createFont("Geogia",20));
   textAlign(CENTER,CENTER);
@@ -256,15 +258,16 @@ void draw(){
   //sphere(40);
   popMatrix();
   
-  angS3 = angS3+0.13;
-  if(angS3>=360){
-    angS3 = 0;
+  angMarte = angMarte+0.13;
+  if(angMarte>=360){
+    angMarte = 0;
   }
   
+  
   pushMatrix();
-  rotateY(radians(angS4));
+  rotateY(radians(angJupiter));
   translate(-width*0.45,0,0);
-  rotateY(radians(angS4*2));
+  rotateY(radians(angJupiter*2));
   fill(255,255,255);
   //textFont(createFont("Geogia",20));
   textAlign(CENTER,CENTER);
@@ -275,9 +278,50 @@ void draw(){
   //sphere(45);
   popMatrix();
   
-  angS4 = angS4+0.09;
-  if(angS4>=360){
-    angS4 = 0;
+  angJupiter = angJupiter+0.09;
+  if(angJupiter>=360){
+    angJupiter = 0;
+  }
+  
+  popMatrix();
+  
+  
+  
+  pushMatrix();
+  translate(dx,dy,dz);
+  
+  rotateY(radians(-90));
+  rotateX(radians(90));
+  
+  rotateZ(radians(-ang));
+  rotateY(radians(ang2));
+  scale(0.04);
+  nave.setFill(color(random(255),random(255),random(255)));
+  shape(nave);
+  
+  popMatrix();
+  
+  if(!camaraMode){
+    pushMatrix();
+    translate(width/2,height/2,0);
+    rotateX(radians(12));
+    fill(255,255,255);
+    textAlign(CENTER,CENTER);
+    String s = "(x = "+str(int(dx))+" ) (y = "+ str(int(dy)) +" ) (z = "+str(int(dz))+" )";
+    text(s,width/2,height/2,0);
+    text("(W) FORWARD (S) BACKWARD",width/2,height/2+30,0);
+    text("(A) ROTATE LEFT (D) ROTATE RIGHT",width/2,height/2+60,0);
+    text("(K) LOOK UP (M) LOOK DOWN",width/2,height/2+90,0);
+    text("(P) ACTIVATE SPACECRAFT VIEW (O) DESACTIVATE SPACECRAFT VIEW",0,height/2-700,0);
+    popMatrix();
+  }
+  
+  ////////////////////////////////////
+  
+  if(camaraMode){
+    camera(dx,dy,dz,vx,vy,vz,0,1,0);
+  } else if(!camaraMode){
+    camera(width/2,height/2-300,1000,width/2,height/2,0,0,1,0);
   }
   
 }
