@@ -3,7 +3,7 @@ ArrayList <Punto> puntos3D ;
 PShape obj ;
 boolean firstTime = true;
 int estado = 0;
-
+int x,c,d,f;
 float angulograd = 10; //1,2,3,4,5,6,8,9,10,12,15,18,20,24,30,36,40-----60,72,90,120
 int numPuntos = int(360/angulograd);
 
