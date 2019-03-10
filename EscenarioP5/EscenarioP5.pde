@@ -113,6 +113,10 @@ void draw(){
     s = "Press 'P' to enter the cavern. " + "\nPress 'A', 'D', 'W' or 'S' to move camera. " + "\nPress 'R', 'G' or 'B' to modify lights." +"\nRed = "+ int(R) + "\nGreen = " + int(G) + "\nBlue = " + int(B);
     text(s, 0,-300,400);
     pointLight(R,G,B,cameraX,cameraY,1000);
+    directionalLight(80, 0, 0, 1,0,0);
+    directionalLight(0, 0, 80, -1,0,0);
+    directionalLight(0, 80, 0, 0,1,0);
+    directionalLight(0, 80, 80, 0,-1,0);
   }
   if(!lightMode){
     textAlign(CENTER,CENTER);
