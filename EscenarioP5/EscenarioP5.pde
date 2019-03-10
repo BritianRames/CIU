@@ -1,30 +1,26 @@
 import processing.sound.*;
 SoundFile sonido_rebote;
 
-int rad = 100;        // Width of the shape
-float xpos, ypos, zpos;    // Starting position of shape 
 
-float xspeed = 2.8;  // Speed of the shape
-float yspeed = 2.2;  // Speed of the shape
+float xpos, ypos, zpos;    
+
+float xspeed = 2.8; 
+float yspeed = 2.2; 
 float zspeed = 2.1;
 
 boolean comienza = true;
-int xdirection;  // Left or Right
-int ydirection;  // Top to Bottom
+int xdirection; 
+int ydirection; 
 int zdirection;
 
-int player1_y = 250;
-int player2_y = 250;
 
-int estado = 0;
 PShape ball, boxX, boxY,boxZ;
-PImage imgBall, textureX,textureY;
+PImage imgBall;
 
 int cameraX = 400;
 int cameraY = 400;
 
 boolean lightMode = false;
-boolean emisive = false;
 
 float R,G,B;
 String s;
@@ -103,8 +99,6 @@ void draw(){
     }
     if(key == 'o') lightMode = true;
     if(key == 'p') lightMode = false;
-    if(key == 'n') emisive = true;
-    if(key == 'm') emisive = false;
     if(key == 'r') R = R + 0.2;
     if(key == 'g') G = G + 0.2;
     if(key == 'b') B = B + 0.2;
@@ -119,7 +113,6 @@ void draw(){
     s = "Press 'P' to enter the cavern. " + "\nPress 'A', 'D', 'W' or 'S' to move camera. " + "\nPress 'R', 'G' or 'B' to modify lights." +"\nRed = "+ int(R) + "\nGreen = " + int(G) + "\nBlue = " + int(B);
     text(s, 0,-300,400);
     pointLight(R,G,B,cameraX,cameraY,1000);
-    if(emisive)smooth(100);
   }
   if(!lightMode){
     textAlign(CENTER,CENTER);
@@ -133,7 +126,7 @@ void draw(){
 
 void printBall(){
   
-  //en caso de comenzar, actualizamos la trayectoria de la bola aleatoriamente.
+  // trayectoria inicial de la bola aleatoria.
   if(comienza){
     xdirection = 0;
     ydirection = 0;
@@ -169,7 +162,7 @@ void printBall(){
     thread("suena_rebote");
   }
 
-  // Draw the shape
+  
   fill(255,255,255);
   pushMatrix();
   translate(xpos,ypos,zpos);
