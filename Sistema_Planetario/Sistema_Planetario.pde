@@ -138,9 +138,20 @@ void draw(){
   
   
   background(img);
-  
+  //lightSpecular(255,255,255);
+  //pointLight(255,255,255,dx,dy,dz);
   pushMatrix();
   translate(width/2,height/2,0);
+  
+  //pointLight(255 , 255 , 255 , 150, 140, 0);
+  //pointLight(255 , 255 , 255 , 150, -140, 0);
+  //pointLight(255 , 255 , 255 , -150, 140, 0);
+  //pointLight(255 , 255 , 255 , -150, -140, 0);
+  //pointLight(255 , 255 , 255 , 0, 140, -150);
+  //pointLight(255 , 255 , 255 , 0, 140, 150);
+  //pointLight(255 , 255 , 255 , 0, -140, -150);
+  //pointLight(255 , 255 , 255 , 0, -140, 150);
+  
   ////////////////////////////////////
   
   pushMatrix();
@@ -160,6 +171,7 @@ void draw(){
   
   fill(255,255,255);
   //textFont(createFont("Geogia",30));
+  noStroke();
   textAlign(CENTER,CENTER);
   text("ESTRELLA", 0,-130);
   rotateY(radians(angEstrella));
